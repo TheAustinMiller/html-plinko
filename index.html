@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Plinko</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>PLINKO</h1>
+      <div class="hud">
+        <div id="balance" class="small">Balance: $100</div>
+        <div id="lastWin" class="small">Last Win: 0x ($0)</div>
+        <div class="bet-controls">
+          <button id="decreaseBet">-</button>
+          <span id="betAmount">$10</span>
+          <button id="increaseBet">+</button>
+        </div>
+        <button id="dropBtn">Drop Ball</button>
+      </div>
+    </header>
+
+    <canvas id="plinko" width="820" height="760"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

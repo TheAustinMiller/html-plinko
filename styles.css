@@ -1,0 +1,90 @@
+:root { 
+  --bg1: #061017; 
+  --bg2: #001217; 
+  --accent: #00ff88; 
+  --muted: #9fd8c5; 
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: "Courier New", monospace; 
+  background: linear-gradient(180deg, var(--bg1), var(--bg2)); 
+  color: var(--accent); 
+}
+
+.wrap { 
+  max-width: 940px; 
+  margin: 18px auto; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 12px; 
+}
+
+header { 
+  text-align: center; 
+}
+
+h1 { 
+  margin: 0; 
+  font-size: 40px; 
+  color: var(--muted); 
+}
+
+.hud { 
+  display: flex; 
+  gap: 12px; 
+  align-items: center; 
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hud .small { 
+  color: #bfeee0; 
+  font-size: 14px; 
+}
+
+button { 
+  background: var(--accent); 
+  color: #012; 
+  border: none; 
+  padding: 10px 14px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-weight: 700; 
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5); 
+}
+
+button:active { 
+  transform: translateY(1px); 
+}
+
+canvas { 
+  border-radius: 12px; 
+  box-shadow: 0 14px 40px rgba(0,0,0,0.6); 
+  background: transparent; 
+}
+
+.bet-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bet-controls button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+#betAmount {
+  color: var(--accent);
+  font-weight: bold;
+  min-width: 60px;
+  text-align: center;
+}
