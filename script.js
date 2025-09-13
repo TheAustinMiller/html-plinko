@@ -13,7 +13,7 @@ const dropSpeed = 2.8;
 const horizEase = 0.22;
 const settledDisplayMs = 1200;
 
-let balance = 100;
+let balance = 0;
 let bet = 10;
 const minBet = 1;
 const maxBet = 100;
@@ -53,6 +53,67 @@ const increaseBetBtn = document.getElementById('increaseBet');
 dropBtn.addEventListener('click', () => dropBall());
 decreaseBetBtn.addEventListener('click', () => changeBet(-1));
 increaseBetBtn.addEventListener('click', () => changeBet(1));
+adBtn.addEventListener('click', () => playAd());
+
+function playAd() {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+
+    // Create video element
+    const video = document.createElement('video');
+    video.src = 'ad.mp4'; // Replace with your video file
+    video.style.cssText = `
+        width: 80%;
+        max-width: 800px;
+        height: auto;
+    `;
+    video.autoplay = true;
+    video.muted = false;
+    video.controls = false;
+
+    // Disable right-click
+    video.addEventListener('contextmenu', (e) => e.preventDefault());
+    
+    // Prevent keyboard shortcuts
+    const blockKeys = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
+
+    // Block common escape keys
+    document.addEventListener('keydown', blockKeys);
+    
+    // Remove overlay when video ends
+    video.addEventListener('ended', () => {
+        document.body.removeChild(overlay);
+        document.removeEventListener('keydown', blockKeys);
+    });
+
+    // Prevent overlay clicks
+    overlay.addEventListener('click', (e) => e.stopPropagation());
+
+    // Add video to overlay and overlay to page
+    overlay.appendChild(video);
+    document.body.appendChild(overlay);
+
+    balance = 100;
+    lastWin = 0;
+    lastMultiplier = 0;
+    updateHUD();
+}
 
 function changeBet(direction) {
     if (direction > 0) {
@@ -68,6 +129,18 @@ function updateHUD() {
     lastWinEl.textContent = `Last Win: ${lastMultiplier}x ($${lastWin})`;
     betAmountEl.textContent = `$${bet}`;
     dropBtn.textContent = `Drop Ball ($${bet})`;
+    if (balance === 0) {
+        adBtn.style.display = 'inline-block';
+        dropBtn.disabled = true;
+        decreaseBetBtn.disabled = true;
+        increaseBetBtn.disabled = true;
+    }
+    if (balance > 0) {
+        adBtn.style.display = 'none';
+        dropBtn.disabled = false;
+        decreaseBetBtn.disabled = false;
+        increaseBetBtn.disabled = false;
+    }
 }
 
 function clamp(v, a, b) { 
