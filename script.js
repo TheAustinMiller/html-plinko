@@ -13,7 +13,7 @@ const dropSpeed = 2.8;
 const horizEase = 0.22;
 const settledDisplayMs = 1200;
 
-let balance = 0;
+let balance = 100;
 let bet = 10;
 const minBet = 1;
 const maxBet = 100;
@@ -109,9 +109,9 @@ function playAd() {
     overlay.appendChild(video);
     document.body.appendChild(overlay);
 
-    balance = 100;
-    lastWin = 0;
-    lastMultiplier = 0;
+    balance = 100.00;
+    lastWin = 0.00;
+    lastMultiplier = 0.00;
     updateHUD();
 }
 
@@ -125,17 +125,17 @@ function changeBet(direction) {
 }
 
 function updateHUD() {
-    balanceEl.textContent = `Balance: $${balance}`;
-    lastWinEl.textContent = `Last Win: ${lastMultiplier}x ($${lastWin})`;
-    betAmountEl.textContent = `$${bet}`;
-    dropBtn.textContent = `Drop Ball ($${bet})`;
-    if (balance === 0) {
+    balanceEl.textContent = `Balance: $${balance.toFixed(2)}`;
+    lastWinEl.textContent = `Last Win: ${lastMultiplier.toFixed(2)}x ($${lastWin.toFixed(2)})`;
+    betAmountEl.textContent = `$${bet.toFixed(2)}`;
+    dropBtn.textContent = `Drop Ball ($${bet.toFixed(2)})`;
+    if (balance < 1) {
         adBtn.style.display = 'inline-block';
         dropBtn.disabled = true;
         decreaseBetBtn.disabled = true;
         increaseBetBtn.disabled = true;
     }
-    if (balance > 0) {
+    if (balance >= 1) {
         adBtn.style.display = 'none';
         dropBtn.disabled = false;
         decreaseBetBtn.disabled = false;
@@ -152,7 +152,7 @@ function dropBall() {
         alert("Not enough balance.");
         return;
     }
-    balance -= bet;
+    balance = parseFloat((balance - bet).toFixed(2));
     updateHUD();
 
     const id = nextBallId++;
@@ -197,10 +197,10 @@ function updateBalls(now) {
             b.y = floorY - (ballRadius + 6);
 
             const multiplier = payouts[slotIndex];
-            const win = bet * multiplier;
-            balance += win;
+            const win = parseFloat((bet * multiplier).toFixed(2));
+            balance = parseFloat((balance + win).toFixed(2));
             lastWin = win;
-            lastMultiplier = multiplier;
+            lastMultiplier = parseFloat(multiplier.toFixed(2));
             lastHighlight.slot = slotIndex;
             lastHighlight.until = performance.now() + 900;
 
@@ -261,7 +261,7 @@ function drawBoard(now) {
     for (let i = 0; i < slots; i++) {
         const cx = startX + i * slotWidth + slotWidth / 2;
         ctx.fillStyle = '#bfffd3';
-        ctx.fillText(`${payouts[i]}x`, cx, canvas.height - 28);
+        ctx.fillText(`${payouts[i].toFixed(2)}x`, cx, canvas.height - 28);
     }
 }
 
